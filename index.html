@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dr. A. Manasa Sree | MBBS | Medical Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --accent: #F97316;
+    --accent-light: #FED7AA;
+    --accent-dark: #C2410C;
+    --accent-glow: rgba(249,115,22,0.15);
+    --bg: #FAFAF8;
+    --bg2: #F5F0EB;
+    --bg3: #EDE8E0;
+    --card: #FFFFFF;
+    --text: #1A1410;
+    --text2: #5C4A3A;
+    --text3: #9C8575;
+    --border: rgba(249,115,22,0.15);
+    --shadow: rgba(249,115,22,0.08);
+    --nav-bg: rgba(250,250,248,0.88);
+  }
+  [data-theme="dark"] {
+    --bg: #0F0D0A;
+    --bg2: #1A1510;
+    --bg3: #241E16;
+    --card: #1E1810;
+    --text: #F5EDE0;
+    --text2: #C4A882;
+    --text3: #8A7060;
+    --border: rgba(249,115,22,0.2);
+    --shadow: rgba(249,115,22,0.12);
+    --nav-bg: rgba(15,13,10,0.92);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.4s, color 0.4s;
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.4;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background 0.4s;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+  .nav-links a {
+    font-size: 0.82rem; font-weight: 500;
+    color: var(--text2);
+    text-decoration: none; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -3px; left: 0;
+    width: 0; height: 1.5px; background: var(--accent);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .theme-toggle {
+    background: none; border: 1px solid var(--border);
+    border-radius: 50px; padding: 6px 14px;
+    color: var(--text2); cursor: pointer;
+    font-size: 0.78rem; font-family: 'DM Sans', sans-serif;
+    font-weight: 500; letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 100px 6rem 60px;
+    gap: 4rem;
+    position: relative;
+  }
+  .hero-bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .orb1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(249,115,22,0.12), transparent 70%); top: 10%; right: 5%; }
+  .orb2 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(249,115,22,0.08), transparent 70%); bottom: 15%; left: 10%; }
+
+  .hero-text { position: relative; z-index: 1; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-glow); border: 1px solid var(--border);
+    border-radius: 50px; padding: 6px 16px;
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 300; line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 1rem; color: var(--text2); line-height: 1.8;
+    margin: 1.5rem 0 2.5rem;
+    max-width: 480px;
+    animation: fadeUp 0.8s 0.2s ease both;
+    font-weight: 300;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: white;
+    padding: 13px 28px; border-radius: 4px;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.25s; box-shadow: 0 4px 20px rgba(249,115,22,0.3);
+  }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(249,115,22,0.4); }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1.5px solid var(--border); color: var(--text2);
+    padding: 13px 28px; border-radius: 4px;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em;
+    text-decoration: none; background: transparent; cursor: pointer;
+    transition: all 0.25s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 3rem;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .stat { border-left: 2px solid var(--accent); padding-left: 1rem; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 500; color: var(--accent); line-height: 1;
+  }
+  .stat-label { font-size: 0.72rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+  .hero-photo-wrap {
+    position: relative; z-index: 1;
+    display: flex; justify-content: center; align-items: center;
+    animation: fadeLeft 0.9s 0.2s ease both;
+  }
+  .hero-photo-frame {
+    position: relative;
+    width: 360px; height: 440px;
+  }
+  .hero-photo-frame::before {
+    content: '';
+    position: absolute; top: -12px; right: -12px;
+    width: 100%; height: 100%;
+    border: 2px solid var(--accent);
+    border-radius: 4px;
+    z-index: 0;
+  }
+  .hero-photo-frame::after {
+    content: '';
+    position: absolute; bottom: -12px; left: -12px;
+    width: 60%; height: 60%;
+    border: 2px solid var(--accent-light);
+    border-radius: 4px; opacity: 0.5;
+    z-index: 0;
+  }
+  .hero-photo {
+    width: 100%; height: 100%;
+    object-fit: cover; border-radius: 4px;
+    position: relative; z-index: 1;
+    display: block;
+    box-shadow: 0 30px 80px var(--shadow);
+  }
+  .photo-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, var(--bg3) 0%, var(--bg2) 100%);
+    border-radius: 4px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1rem; position: relative; z-index: 1;
+    box-shadow: 0 30px 80px var(--shadow);
+  }
+  .photo-placeholder svg { width: 64px; height: 64px; opacity: 0.4; }
+  .photo-placeholder p { font-size: 0.8rem; color: var(--text3); letter-spacing: 0.05em; }
+
+  .reg-badge {
+    position: absolute; bottom: -20px; left: -20px; z-index: 2;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px 16px;
+    box-shadow: 0 8px 30px var(--shadow);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .reg-badge-icon { font-size: 1.4rem; }
+  .reg-badge-text { font-size: 0.7rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
+  .reg-badge-num { font-size: 0.85rem; font-weight: 600; color: var(--accent); }
+
+  /* ── SECTION BASE ── */
+  section { padding: 100px 6rem; position: relative; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .section-label::before { content: ''; width: 30px; height: 1.5px; background: var(--accent); }
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300; line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+  .section-desc { font-size: 0.95rem; color: var(--text2); line-height: 1.8; max-width: 520px; font-weight: 300; margin-bottom: 3.5rem; }
+
+  /* ── ABOUT ── */
+  #about { background: var(--bg2); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .about-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 2.5rem;
+    box-shadow: 0 4px 30px var(--shadow);
+  }
+  .about-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 500; color: var(--text);
+    margin-bottom: 1rem;
+  }
+  .about-card p { font-size: 0.9rem; color: var(--text2); line-height: 1.9; font-weight: 300; }
+  .info-list { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; margin-top: 1.5rem; }
+  .info-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--text2); }
+  .info-list li .icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  .info-list li strong { color: var(--text); font-weight: 500; }
+
+  /* ── EDUCATION ── */
+  #education { background: var(--bg); }
+  .edu-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 2.5rem;
+    position: relative; overflow: hidden;
+    box-shadow: 0 4px 30px var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .edu-card:hover { transform: translateY(-4px); box-shadow: 0 12px 50px var(--shadow); }
+  .edu-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(to bottom, var(--accent), var(--accent-light));
+  }
+  .edu-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr)); gap: 1.5rem; }
+  .edu-degree {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 500; color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+  .edu-inst { font-size: 0.9rem; color: var(--accent); font-weight: 500; margin-bottom: 0.3rem; }
+  .edu-year { font-size: 0.78rem; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; }
+  .edu-tag {
+    display: inline-block; margin-top: 1rem;
+    background: var(--accent-glow); color: var(--accent);
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+    padding: 4px 12px; border-radius: 50px; text-transform: uppercase;
+  }
+
+  /* ── ROTATIONS ── */
+  #rotations { background: var(--bg2); }
+  .rotations-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 1rem; }
+  .rotation-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.5rem 1.2rem;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .rotation-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 30px var(--shadow); }
+  .rotation-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+  .rotation-name { font-size: 0.88rem; font-weight: 500; color: var(--text); margin-bottom: 0.3rem; }
+  .rotation-dur { font-size: 0.75rem; color: var(--accent); font-weight: 600; letter-spacing: 0.05em; }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--bg); }
+  .skills-grid { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+  .skill-pill {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 50px; padding: 8px 20px;
+    font-size: 0.82rem; font-weight: 500; color: var(--text2);
+    transition: all 0.25s;
+  }
+  .skill-pill:hover { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+  .skill-pill.featured { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--bg2); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .contact-card {
+    display: flex; align-items: center; gap: 1rem;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.5rem;
+    text-decoration: none;
+    transition: all 0.25s;
+  }
+  .contact-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 30px var(--shadow); }
+  .contact-icon {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--accent-glow); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .contact-label { font-size: 0.72rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+  .contact-value { font-size: 0.9rem; font-weight: 500; color: var(--text); }
+  .contact-cards { display: flex; flex-direction: column; gap: 1rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg3); border-top: 1px solid var(--border);
+    padding: 2.5rem 6rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 600; color: var(--accent);
+  }
+  .footer-text { font-size: 0.78rem; color: var(--text3); }
+  .footer-right { display: flex; gap: 1.5rem; }
+  .footer-right a { font-size: 0.78rem; color: var(--text3); text-decoration: none; transition: color 0.2s; }
+  .footer-right a:hover { color: var(--accent); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+  @keyframes fadeLeft { from { opacity:0; transform: translateX(24px); } to { opacity:1; transform: translateX(0); } }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ── DIVIDER ── */
+  .divider { width: 60px; height: 2px; background: linear-gradient(to right, var(--accent), transparent); margin: 1.5rem 0; }
+
+  /* ── MOBILE ── */
+  @media(max-width:900px) {
+    section { padding: 70px 2rem; }
+    #hero { grid-template-columns: 1fr; padding: 100px 2rem 50px; text-align: center; }
+    .hero-text { order: 2; }
+    .hero-photo-wrap { order: 1; }
+    .hero-cta { justify-content: center; }
+    .hero-stats { justify-content: center; }
+    .hero-sub { margin-left: auto; margin-right: auto; }
+    .hero-photo-frame { width: 260px; height: 320px; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-grid { grid-template-columns: 1fr; }
+    footer { padding: 2rem; flex-direction: column; text-align: center; }
+    .nav-links { display: none; flex-direction: column; position: fixed; top: 64px; left: 0; right: 0; background: var(--nav-bg); backdrop-filter: blur(20px); padding: 1.5rem 2rem; gap: 1.2rem; border-bottom: 1px solid var(--border); }
+    .nav-links.open { display: flex; }
+    .hamburger { display: flex; }
+    .reg-badge { left: 0; bottom: -25px; }
+  }
+  @media(max-width:600px) {
+    .rotations-grid { grid-template-columns: repeat(2,1fr); }
+    .edu-cards-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">Dr. Manasa Sree</div>
+  <div class="nav-links" id="navLinks">
+    <a href="#about">About</a>
+    <a href="#education">Education</a>
+    <a href="#rotations">Rotations</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☾ Dark</button>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="orb1 hero-bg-orb"></div>
+  <div class="orb2 hero-bg-orb"></div>
+
+  <div class="hero-text">
+    <div class="hero-tag">
+      <span class="dot"></span>
+      Available for Opportunities
+    </div>
+    <h1>Dr. A.<br><em>Manasa Sree</em></h1>
+    <p class="hero-sub">
+      MBBS Graduate & House Surgeon at Sri Padmavathi Medical College for Women, Tirupati. Dedicated to compassionate patient care, evidence-based medicine, and lifelong learning in the pursuit of healing.
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        Get in Touch
+      </a>
+      <a href="#education" class="btn-outline">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        View Education
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">MBBS</div>
+        <div class="stat-label">Degree</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2025</div>
+        <div class="stat-label">House Surgeon</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2205081</div>
+        <div class="stat-label">Med. Council Reg.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-photo-wrap">
+    <div class="hero-photo-frame">
+      <div class="photo-placeholder" id="photoContainer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" color="#F97316">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <p>Upload your photo</p>
+      </div>
+      <div class="reg-badge">
+        <div class="reg-badge-icon">🏥</div>
+        <div>
+          <div class="reg-badge-text">Medical Council Reg.</div>
+          <div class="reg-badge-num"># 2205081</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="reveal">
+      <div class="section-label">About Me</div>
+      <h2>Healing with <em>Heart & Science</em></h2>
+      <div class="divider"></div>
+      <div class="about-card">
+        <h3>Who I Am</h3>
+        <p>
+          I am Dr. A. Manasa Sree, a dedicated MBBS graduate currently completing my House Surgeoncy at Sri Padmavathi Medical College for Women, Tirupati. Passionate about patient-centered care, I bring empathy and clinical precision to every interaction.
+        </p>
+        <p style="margin-top:0.8rem">
+          With a strong foundation in both theoretical knowledge and hands-on clinical training across multiple specialties, I am committed to delivering the highest standard of medical care. I believe medicine is not just a profession — it's a calling to serve humanity with integrity and compassion.
+        </p>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="about-card">
+        <h3>Personal Details</h3>
+        <ul class="info-list">
+          <li><span class="icon">👩‍⚕️</span><div><strong>Full Name</strong><br>Dr. A. Manasa Sree</div></li>
+          <li><span class="icon">🎂</span><div><strong>Date of Birth</strong><br>21st April, 2001</div></li>
+          <li><span class="icon">📞</span><div><strong>Phone</strong><br>+91 8919588871</div></li>
+          <li><span class="icon">📧</span><div><strong>Email</strong><br>manasasree2226@gmail.com</div></li>
+          <li><span class="icon">📍</span><div><strong>Location</strong><br>Tirupati, Andhra Pradesh, India</div></li>
+          <li><span class="icon">🏛️</span><div><strong>Medical Council Reg.</strong><br>2205081</div></li>
+          <li><span class="icon">🌐</span><div><strong>Languages</strong><br>Telugu, English, Hindi</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label reveal">Education</div>
+  <h2 class="reveal">Academic <em>Journey</em></h2>
+  <p class="section-desc reveal">Built on a foundation of rigorous medical education at one of Andhra Pradesh's premier institutions.</p>
+  <div class="edu-cards-grid">
+    <div class="edu-card reveal">
+      <div class="edu-degree">MBBS</div>
+      <div class="edu-inst">Sri Padmavathi Medical College for Women</div>
+      <div class="edu-year">📅 2020 – 2026 · Tirupati, Andhra Pradesh</div>
+      <div class="edu-tag">Bachelor of Medicine & Surgery</div>
+      <p style="margin-top:1rem; font-size:0.85rem; color:var(--text2); line-height:1.8; font-weight:300;">
+        Comprehensive training in clinical medicine, surgery, obstetrics, pediatrics and allied specialties, with extensive hospital exposure and patient care.
+      </p>
+    </div>
+    <div class="edu-card reveal reveal-delay-1">
+      <div class="edu-degree">House Surgeoncy</div>
+      <div class="edu-inst">Sri Padmavathi Medical College for Women</div>
+      <div class="edu-year">📅 2025 – 2026 · Tirupati, Andhra Pradesh</div>
+      <div class="edu-tag">Internship · Currently Ongoing</div>
+      <p style="margin-top:1rem; font-size:0.85rem; color:var(--text2); line-height:1.8; font-weight:300;">
+        Rotational internship across multiple clinical departments, gaining practical experience in diagnosis, treatment planning and patient management.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ROTATIONS -->
+<section id="rotations">
+  <div class="section-label reveal">Clinical Training</div>
+  <h2 class="reveal">House Surgeon <em>Rotations</em></h2>
+  <p class="section-desc reveal">Hands-on clinical exposure across key medical specialties during the House Surgeoncy program.</p>
+  <div class="rotations-grid" id="rotationsGrid">
+    <!-- Populated by JS -->
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label reveal">Competencies</div>
+  <h2 class="reveal">Clinical <em>Skills</em></h2>
+  <p class="section-desc reveal">Core medical skills and competencies developed across academic training and clinical rotations.</p>
+  <div class="skills-grid reveal" id="skillsGrid">
+    <!-- Populated by JS -->
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label reveal">Contact</div>
+  <h2 class="reveal">Get in <em>Touch</em></h2>
+  <p class="section-desc reveal">Open to collaborations, research opportunities, and clinical positions. Feel free to reach out.</p>
+  <div class="contact-grid">
+    <div class="contact-cards reveal">
+      <a href="mailto:manasasree2226@gmail.com" class="contact-card">
+        <div class="contact-icon">📧</div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value">manasasree2226@gmail.com</div>
+        </div>
+      </a>
+      <a href="tel:+918919588871" class="contact-card">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Phone</div>
+          <div class="contact-value">+91 8919588871</div>
+        </div>
+      </a>
+      <div class="contact-card">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-label">Location</div>
+          <div class="contact-value">Tirupati, Andhra Pradesh</div>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon">🏥</div>
+        <div>
+          <div class="contact-label">Institution</div>
+          <div class="contact-value">Sri Padmavathi Medical College</div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="about-card" style="height:100%">
+        <h3>📬 Send a Message</h3>
+        <p style="margin-bottom:1.5rem; font-size:0.87rem;">Whether it's about research, clinical collaboration or career opportunities — I'd love to hear from you.</p>
+        <div style="display:flex; flex-direction:column; gap:0.9rem;">
+          <input id="cName" type="text" placeholder="Your Name" style="width:100%;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;transition:border 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'"/>
+          <input id="cEmail" type="email" placeholder="Your Email" style="width:100%;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;transition:border 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'"/>
+          <textarea id="cMsg" rows="4" placeholder="Your Message" style="width:100%;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;resize:vertical;transition:border 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+          <button onclick="sendMsg()" class="btn-primary" style="align-self:flex-start;">Send Message →</button>
+          <div id="msgFeedback" style="font-size:0.82rem;color:var(--accent);display:none;">✓ Message sent! Dr. Manasa will get back to you soon.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Dr. A. Manasa Sree</div>
+  <div class="footer-text">© 2025 · MBBS, Sri Padmavathi Medical College for Women</div>
+  <div class="footer-right">
+    <a href="#hero">Top ↑</a>
+    <a href="mailto:manasasree2226@gmail.com">Email</a>
+    <a href="tel:+918919588871">Phone</a>
+  </div>
+</footer>
+
+<script>
+// ── THEME TOGGLE ──
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeBtn').textContent = isDark ? '☾ Dark' : '☀ Light';
+}
+
+// ── MOBILE MENU ──
+function toggleMenu() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+// Close menu on link click
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+});
+
+// ── ROTATIONS DATA ──
+const rotations = [
+  { icon: '🫀', name: 'General Medicine', dur: '2 Months' },
+  { icon: '🔪', name: 'General Surgery', dur: '2 Months' },
+  { icon: '🤰', name: 'Obstetrics & Gynecology', dur: '2 Months' },
+  { icon: '👶', name: 'Pediatrics', dur: '1 Month' },
+  { icon: '🦴', name: 'Orthopedics', dur: '1 Month' },
+  { icon: '👁️', name: 'Ophthalmology', dur: '1 Month' },
+  { icon: '👂', name: 'ENT', dur: '1 Month' },
+  { icon: '🧠', name: 'Psychiatry', dur: '2 Weeks' },
+  { icon: '🦷', name: 'Dentistry', dur: '2 Weeks' },
+  { icon: '🩺', name: 'Community Medicine', dur: '1 Month' },
+  { icon: '💉', name: 'Anaesthesia', dur: '2 Weeks' },
+  { icon: '🚨', name: 'Casualty / Emergency', dur: '1 Month' },
+];
+
+const rotGrid = document.getElementById('rotationsGrid');
+rotations.forEach((r, i) => {
+  const card = document.createElement('div');
+  card.className = 'rotation-card reveal' + (i % 3 === 1 ? ' reveal-delay-1' : i % 3 === 2 ? ' reveal-delay-2' : '');
+  card.innerHTML = `<div class="rotation-icon">${r.icon}</div><div class="rotation-name">${r.name}</div><div class="rotation-dur">${r.dur}</div>`;
+  rotGrid.appendChild(card);
+});
+
+// ── SKILLS DATA ──
+const skills = [
+  { name: 'Clinical Diagnosis', featured: true },
+  { name: 'Patient Management', featured: true },
+  { name: 'History Taking', featured: true },
+  { name: 'Physical Examination', featured: true },
+  { name: 'Emergency Medicine', featured: false },
+  { name: 'IV Cannulation', featured: false },
+  { name: 'Wound Dressing', featured: false },
+  { name: 'ECG Interpretation', featured: false },
+  { name: 'Suturing', featured: false },
+  { name: 'Medical Documentation', featured: false },
+  { name: 'Pharmacology', featured: false },
+  { name: 'Radiology Basics', featured: false },
+  { name: 'Obstetric Care', featured: false },
+  { name: 'Pediatric Assessment', featured: false },
+  { name: 'Surgical Assistance', featured: false },
+  { name: 'Patient Counseling', featured: false },
+  { name: 'Evidence-Based Medicine', featured: false },
+  { name: 'Team Collaboration', featured: false },
+  { name: 'Critical Thinking', featured: false },
+  { name: 'Medical Ethics', featured: false },
+];
+
+const skillsGrid = document.getElementById('skillsGrid');
+skills.forEach(s => {
+  const pill = document.createElement('div');
+  pill.className = 'skill-pill' + (s.featured ? ' featured' : '');
+  pill.textContent = s.name;
+  skillsGrid.appendChild(pill);
+});
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── CONTACT FORM ──
+function sendMsg() {
+  const n = document.getElementById('cName').value.trim();
+  const e = document.getElementById('cEmail').value.trim();
+  const m = document.getElementById('cMsg').value.trim();
+  if (!n || !e || !m) { alert('Please fill all fields.'); return; }
+  const fb = document.getElementById('msgFeedback');
+  fb.style.display = 'block';
+  document.getElementById('cName').value = '';
+  document.getElementById('cEmail').value = '';
+  document.getElementById('cMsg').value = '';
+}
+
+// ── PHOTO UPLOAD ──
+const container = document.getElementById('photoContainer');
+container.addEventListener('click', () => {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = document.createElement('img');
+      img.src = ev.target.result;
+      img.className = 'hero-photo';
+      img.alt = 'Dr. A. Manasa Sree';
+      container.innerHTML = '';
+      container.appendChild(img);
+      container.className = '';
+      container.style.cssText = 'width:100%;height:100%;';
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+});
+</script>
+</body>
+</html>
